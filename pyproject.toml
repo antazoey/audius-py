@@ -21,11 +21,12 @@ mypy = {version = "^0.991", optional = true}
 types-requests = {version = "^2.28.9", optional = true}
 twine = {version = "^3.8.0", optional = true}
 wheel = {version = "^0.37.1", optional = true}
+packaging = {version = "^21.3", optional = true}
 
 [tool.poetry.extras]
 lint = ["black", "isort", "flake8", "mypy"]
 types = ["mypy", "types-requests"]
-release = ["twine", "wheel"]
+release = ["twine", "wheel", "packaging"]
 
 [tool.poetry.scripts]
 audius = "audius.cli:audius"
