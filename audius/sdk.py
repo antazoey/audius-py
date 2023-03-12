@@ -10,6 +10,7 @@ from audius.tracks import Tracks
 from audius.users import Users
 
 AUDIUS_APP_NAME_ENV_VAR = "AUDIUS_APP_NAME"
+AUDIUS_HOST_NAME_ENV_VAR = "AUDIUS_HOST_NAME"
 DEFAULT_APP_NAME = "audius-py"
 
 
@@ -19,7 +20,7 @@ class Audius:
             app if app is not None else os.environ.get(AUDIUS_APP_NAME_ENV_VAR, DEFAULT_APP_NAME)
         )
         self.factory = ClientFactory(self.app_name)
-        self.host = host or os.environ.get("AUDIUS_HOST_NAME")
+        self.host = host or os.environ.get(AUDIUS_HOST_NAME_ENV_VAR)
         self.player = Player()
 
     @cached_property

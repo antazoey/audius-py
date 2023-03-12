@@ -20,13 +20,36 @@ pip install poetry && poetry install
 
 ## Quick Usage
 
-You must set the environment variable AUDIUS_APP_NAME prior to using the SDK:
+It is recommend that you set the environment variable AUDIUS_APP_NAME prior to using the SDK:
 
 ```shell
 export AUDIUS_APP_NAME="My_Audius_App"
 ```
 
+You can also specify an app name when creating the SDK, like:
+
+```python
+from audius.sdk import Audius
+
+sdk = Audius(app="my_app")
+```
+
+If you don't specify an app name, the default name `audius-py` will be used.
+Additionally, specify your host URL via environment variable:
+
+```shell
+export AUDIUS_HOST_NAME="https://audius.example.com"
+```
+
+If you don't specify a host, `audius-py` will select a random host from the list of known hosts to the Audius app.
+
 ### CLI
+
+See all commands by doing:
+
+```shell
+audius --help
+```
 
 This guide will show how to stream one of the top songs on Audius directly into your terminal.
 First, browse top artists using the CLI:
