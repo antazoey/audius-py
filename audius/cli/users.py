@@ -36,8 +36,12 @@ def get(sdk, user_id):
 
 @users.command()
 @audius_sdk()
-@click.option("--query", help="A user query.")
+@click.argument("query")
 def search(sdk, query):
+    """
+    Search for users.
+    """
+
     result = sdk.users.search(query=query)
     for idx, user in enumerate(result):
         _echo_user(user)
@@ -50,6 +54,10 @@ def search(sdk, query):
 @audius_sdk()
 @click.argument("user_id")
 def wallets(sdk, user_id):
+    """
+    List user wallet addresses.
+    """
+
     result = sdk.users.get_connected_wallets(user_id)
     if result["erc_wallets"]:
         click.echo("ERC Wallets:")

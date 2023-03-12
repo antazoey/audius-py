@@ -36,8 +36,12 @@ def get(sdk, playlist_id):
 
 @playlists.command()
 @audius_sdk()
-@click.option("--query", help="A playlist query.")
+@click.argument("query")
 def search(sdk, query):
+    """
+    Search through playlists.
+    """
+
     result = sdk.playlists.search(query=query)
     for idx, playlist in enumerate(result):
         _echo_playlist(playlist)

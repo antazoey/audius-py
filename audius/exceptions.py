@@ -32,3 +32,13 @@ class PlaylistNotFoundError(AudiusException):
     def __init__(self, playlist_id: str):
         self.playlist_id = playlist_id
         super().__init__(f"Playlist '{playlist_id}' is not found.")
+
+
+class TrackNotFoundError(AudiusException):
+    """
+    Raised when a track is not found.
+    """
+
+    def __init__(self, track_id: str):
+        self.track_id = track_id
+        super().__init__(f"Track '{track_id}' is not found.")

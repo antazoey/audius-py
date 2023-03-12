@@ -5,6 +5,7 @@ from typing import Optional
 from audius.client_factory import ClientFactory
 from audius.exceptions import UnknownAppError
 from audius.playlists import Playlists
+from audius.tracks import Tracks
 from audius.users import Users
 
 AUDIUS_APP_NAME_ENV_VAR = "AUDIUS_APP_NAME"
@@ -44,6 +45,10 @@ class Audius:
     @cached_property
     def playlists(self) -> Playlists:
         return Playlists(self.client)
+
+    @cached_property
+    def tracks(self) -> Tracks:
+        return Tracks(self.client)
 
     def get_hosts(self):
         """
