@@ -31,7 +31,7 @@ jobs:
       run: poetry install --extras release
 
     - name: Build
-      run: python setup.py sdist bdist_wheel
+      run: poetry build -f sdist
 
     - name: Publish
       env:

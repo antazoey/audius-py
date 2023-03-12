@@ -3,6 +3,9 @@ name = "audius-py"
 version = "0.1.0"
 description = "An SDK for the Audius platform"
 authors = ["Juliya Smith <juliya@juliyasmith.com>"]
+include = ["audius_py"]
+exclude = ["tests"]
+packages = [{ include = "audius" }]
 license = "MIT"
 
 [tool.poetry.dependencies]
