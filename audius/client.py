@@ -3,6 +3,11 @@ from functools import cached_property
 from requests import Session
 
 
+class API:
+    def __init__(self, client: "Client"):
+        self.client = client
+
+
 class Client:
     def __init__(self, app_name: str, host_address: str):
         self.app_name = app_name

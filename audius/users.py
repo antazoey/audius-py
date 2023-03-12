@@ -2,15 +2,11 @@ from typing import Dict, Iterator, List, Optional
 
 from requests.exceptions import HTTPError
 
-from audius.client import Client
+from audius.client import API
 from audius.exceptions import UserNotFoundError
 
 
-class Users:
-    def __init__(self, app_name: str, client: Client):
-        self.app_name = app_name
-        self.client = client
-
+class Users(API):
     def top(self) -> Iterator[dict]:
         yield from self.client.get("users/top").get("data", [])
 
@@ -26,7 +22,8 @@ class Users:
         return result.get("data", {})
 
     def search(self, query: Optional[str] = None) -> List[Dict]:
-        return self.client.get("users/search", params={"query": query}).get("data")
+        result = self.client.get("users/search", params={"query": query})
+        return result.get("data", [])
 
     def get_connected_wallets(self, user_id: str) -> Dict:
         result = self.client.get(f"users/{user_id}/connected_wallets")

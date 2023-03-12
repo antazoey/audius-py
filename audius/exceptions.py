@@ -22,3 +22,13 @@ class UserNotFoundError(AudiusException):
     def __init__(self, user_id: str):
         self.user_id = user_id
         super().__init__(f"User '{user_id}' is not found.")
+
+
+class PlaylistNotFoundError(AudiusException):
+    """
+    Raised when a playlist is not found.
+    """
+
+    def __init__(self, playlist_id: str):
+        self.playlist_id = playlist_id
+        super().__init__(f"Playlist '{playlist_id}' is not found.")

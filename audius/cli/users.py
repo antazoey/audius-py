@@ -1,6 +1,6 @@
 import click
 
-from audius.sdk import Audius
+from audius.cli.utils import audius_sdk
 
 
 @click.group()
@@ -11,33 +11,33 @@ def users():
 
 
 @users.command()
-def top():
+@audius_sdk()
+def top(sdk):
     """
     Page through the top users.
     """
 
-    sdk = Audius.from_env()
     top = list(sdk.users.top())
     gen = (f"{i + 1}: {x['name']} (id={x['id']})\n" for i, x in enumerate(top))
     click.echo_via_pager(gen)
 
 
 @users.command()
+@audius_sdk()
 @click.argument("user_id")
-def get(user_id):
+def get(sdk, user_id):
     """
     Get a user.
     """
 
-    sdk = Audius.from_env()
     user = sdk.users.get(user_id)
     _echo_user(user)
 
 
 @users.command()
+@audius_sdk()
 @click.option("--query", help="A user query.")
-def search(query):
-    sdk = Audius.from_env()
+def search(sdk, query):
     result = sdk.users.search(query=query)
     for idx, user in enumerate(result):
         _echo_user(user)
@@ -47,9 +47,9 @@ def search(query):
 
 
 @users.command()
+@audius_sdk()
 @click.argument("user_id")
-def wallets(user_id):
-    sdk = Audius.from_env()
+def wallets(sdk, user_id):
     result = sdk.users.get_connected_wallets(user_id)
     if result["erc_wallets"]:
         click.echo("ERC Wallets:")
