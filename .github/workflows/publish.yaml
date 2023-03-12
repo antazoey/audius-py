@@ -29,7 +29,6 @@ jobs:
 
     - name: Install dependencies
       run: poetry install --extras release
-      if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
 
     - name: Build
       run: python setup.py sdist bdist_wheel
