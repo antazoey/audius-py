@@ -4,6 +4,7 @@ from typing import Any
 
 import click
 
+from audius.cli.playlists import playlists
 from audius.cli.users import users
 from audius.client_factory import get_hosts
 from audius.exceptions import AudiusException
@@ -56,3 +57,4 @@ def hosts():
 
 
 audius.add_command(users)
+audius.add_command(playlists)
