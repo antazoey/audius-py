@@ -411,8 +411,9 @@ socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
 
 [extras]
 lint = ["black", "isort", "flake8", "mypy"]
+types = ["mypy"]
 
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9.13,<4"
-content-hash = "b2f3fab08d56103894589b970782c126392e38476ebdbe0a710346da5e9be6b1"
+content-hash = "ccc9926243e193c51da89478ba31d49ad5923b13abfa96f2721a0568615f82eb"

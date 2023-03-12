@@ -50,8 +50,8 @@ jobs:
         - name: Install Dependencies
           run: |
             python -m pip install --upgrade pip
-            pip install poetry mypy
-            poetry install
+            pip install poetry
+            poetry install --extras types
 
         - name: Run MyPy
           run: mypy .
