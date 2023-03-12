@@ -33,7 +33,6 @@ jobs:
 
         - name: Install dependencies
           run: poetry install --extras lint
-          if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
 
         - name: Run Black
           run: poetry run black --check .
@@ -67,7 +66,6 @@ jobs:
 
         - name: Install dependencies
           run: poetry install --extras types
-          if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
 
         - name: Run MyPy
           run: poetry run mypy .
