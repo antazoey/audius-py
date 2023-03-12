@@ -5,6 +5,7 @@ from typing import Any
 import click
 
 from audius.cli.playlists import playlists
+from audius.cli.tips import tips
 from audius.cli.tracks import tracks
 from audius.cli.users import users
 from audius.client_factory import get_hosts
@@ -60,3 +61,4 @@ def hosts():
 audius.add_command(users)
 audius.add_command(playlists)
 audius.add_command(tracks)
+audius.add_command(tips)

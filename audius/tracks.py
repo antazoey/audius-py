@@ -3,7 +3,7 @@ from typing import Dict, Iterator, List, Optional
 
 import click
 from requests.exceptions import HTTPError
-from tqdm import tqdm
+from tqdm import tqdm  # type: ignore
 
 from audius.client import API, Client
 from audius.exceptions import OutputPathError, TrackNotFoundError

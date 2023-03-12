@@ -82,7 +82,7 @@ Use the Python SDK directly:
 ```python
 from audius.sdk import Audius
 
-sdk = Audius.from_env()
+sdk = Audius(app="my_app")
 for artist in sdk.users.top():
     print(artist["name"])
 ```

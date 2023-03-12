@@ -3,29 +3,24 @@ from functools import cached_property
 from typing import Optional
 
 from audius.client_factory import ClientFactory
-from audius.exceptions import UnknownAppError
 from audius.player import Player
 from audius.playlists import Playlists
+from audius.tips import Tips
 from audius.tracks import Tracks
 from audius.users import Users
 
 AUDIUS_APP_NAME_ENV_VAR = "AUDIUS_APP_NAME"
+DEFAULT_APP_NAME = "audius-py"
 
 
 class Audius:
-    def __init__(self, app_name: str, host: Optional[str] = None):
-        self.app_name = app_name
-        self.factory = ClientFactory(app_name)
-        self.host = host
+    def __init__(self, app: Optional[str] = None, host: Optional[str] = None):
+        self.app_name: str = (
+            app if app is not None else os.environ.get(AUDIUS_APP_NAME_ENV_VAR, DEFAULT_APP_NAME)
+        )
+        self.factory = ClientFactory(self.app_name)
+        self.host = host or os.environ.get("AUDIUS_HOST_NAME")
         self.player = Player()
-
-    @classmethod
-    def from_env(cls):
-        value = os.environ.get(AUDIUS_APP_NAME_ENV_VAR)
-        if not value:
-            raise UnknownAppError()
-
-        return cls(value, host=os.environ.get("AUDIUS_HOST_NAME"))
 
     @cached_property
     def client(self):
@@ -51,6 +46,10 @@ class Audius:
     @cached_property
     def tracks(self) -> Tracks:
         return Tracks(self.client, self.player)
+
+    @cached_property
+    def tips(self) -> Tips:
+        return Tips(self.client)
 
     def get_hosts(self):
         """
