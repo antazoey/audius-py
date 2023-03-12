@@ -69,6 +69,11 @@ audius tracks play G0wyE
 ```
 
 The song should now be streaming into your terminal!
+And if you really enjoy the track, you can download it by doing:
+
+```shell
+audius tracks download G0wyE song.mp3
+```
 
 ### Python SDK
 

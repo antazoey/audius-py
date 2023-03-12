@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import click
 
 from audius.cli.utils import audius_sdk
@@ -58,7 +60,19 @@ def play(sdk, track_id):
     Play a track.
     """
 
-    sdk.play_track(track_id)
+    sdk.tracks.play(track_id)
+
+
+@tracks.command()
+@audius_sdk()
+@click.argument("track_id")
+@click.argument("out_path", type=Path)
+def download(sdk, track_id, out_path):
+    """
+    Download a track.
+    """
+
+    sdk.tracks.download(track_id, out_path)
 
 
 def _echo_track(track: dict):

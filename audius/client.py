@@ -1,6 +1,6 @@
 from functools import cached_property
 
-from requests import Session
+from requests import Response, Session
 
 
 class API:
@@ -22,10 +22,10 @@ class Client:
         if "app_name" not in kwargs["params"]:
             kwargs["params"]["app_name"] = self.app_name
 
-        url = f"{self.host_address}/v1/{url}"
-        return self.request("GET", url, **kwargs)
+        return self.request("GET", url, **kwargs).json()
 
-    def request(self, method: str, url: str, **kwargs) -> dict:
+    def request(self, method: str, url: str, **kwargs) -> Response:
+        url = f"{self.host_address}/v1/{url}"
         response = self.session.request(method, url, **kwargs)
         response.raise_for_status()
-        return response.json()
+        return response

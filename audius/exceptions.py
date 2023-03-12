@@ -51,3 +51,9 @@ class MissingPlayerError(AudiusException):
 
     def __init__(self):
         super().__init__("Missing audio player. Ensure VLC music player is installed.")
+
+
+class OutputPathError(AudiusException):
+    """
+    Raise when there is an issue with an output path.
+    """
