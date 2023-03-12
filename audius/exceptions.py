@@ -42,3 +42,12 @@ class TrackNotFoundError(AudiusException):
     def __init__(self, track_id: str):
         self.track_id = track_id
         super().__init__(f"Track '{track_id}' is not found.")
+
+
+class MissingPlayerError(AudiusException):
+    """
+    Raised when no player configured to stream tracks.
+    """
+
+    def __init__(self):
+        super().__init__("Missing audio player. Ensure VLC music player is installed.")

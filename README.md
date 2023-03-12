@@ -1,6 +1,6 @@
 # audius-py
 
-A Python SDK for the Audius Platform
+A Python SDK an CLI for the Audius Platform.
 
 ## Installation
 
@@ -16,6 +16,8 @@ From source:
 pip install poetry && poetry install
 ```
 
+**NOTE**: In order to user the media player functionality of the SDK, you must have [VLC media player](https://www.videolan.org/vlc/) installed.
+
 ## Quick Usage
 
 You must set the environment variable AUDIUS_APP_NAME prior to using the SDK:
@@ -26,17 +28,47 @@ export AUDIUS_APP_NAME="My_Audius_App"
 
 ### CLI
 
-Browse top artists using the CLI:
+This guide will show how to stream one of the top songs on Audius directly into your terminal.
+First, browse top artists using the CLI:
 
 ```shell
 audius users top
 ```
 
-Check information about a specific user by doing:
+It should show output like this:
 
 ```shell
-audius users get <user-id>
+1: Zedd (id=XlJby)
+2: Skrillex (id=eAZl3)
+3: Aluna (id=5j9VM)
+4: kennybeats (id=DrZwG)
+5: trillsammy (id=NzMW8)
+6: ODESZA (id=2oNg1)
+7: noodles (id=b9w8J)
+8: kayzo (id=LMdyZ)
+9: Disclosure (id=E2O1R)
+10: Fat Nick (id=oGKZd)
 ```
+
+Next, select one of the user IDs by copying it and using it in the following command:
+
+```shell
+audius users tracks eAZl3
+```
+
+It should output track information like this:
+
+```shell
+Track: Kliptown Empyrean (id=G0wyE)
+```
+
+Finally, play the track by using its ID in the following command:
+
+```shell
+audius tracks play G0wyE
+```
+
+The song should now be streaming into your terminal!
 
 ### Python SDK
 

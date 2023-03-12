@@ -28,3 +28,7 @@ class Users(API):
     def get_connected_wallets(self, user_id: str) -> Dict:
         result = self.client.get(f"users/{user_id}/connected_wallets")
         return result.get("data", {})
+
+    def get_tracks(self, user_id: str) -> List[Dict]:
+        result = self.client.get(f"users/{user_id}/tracks")
+        return result.get("data", [])

@@ -2,11 +2,13 @@ import os
 from functools import cached_property
 from typing import Optional
 
+import click
 from audius.client_factory import ClientFactory
 from audius.exceptions import UnknownAppError
 from audius.playlists import Playlists
 from audius.tracks import Tracks
 from audius.users import Users
+from audius.player import Player
 
 AUDIUS_APP_NAME_ENV_VAR = "AUDIUS_APP_NAME"
 
@@ -16,6 +18,7 @@ class Audius:
         self.app_name = app_name
         self.factory = ClientFactory(app_name)
         self.host = host
+        self.player = Player()
 
     @classmethod
     def from_env(cls):
@@ -56,3 +59,9 @@ class Audius:
         """
 
         return self.factory.get_hosts()
+
+    def play_track(self, track_id: str):
+        track = self.tracks.get(track_id)
+        url = f"{self.client.host_address}/v1/tracks/{track_id}/stream"
+        click.echo(f"Now playing '{track['title']}' by {track['user']['name']}")
+        self.player.play(url)

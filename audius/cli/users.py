@@ -75,6 +75,22 @@ def wallets(sdk, user_id):
             click.echo(addr)
 
 
+@users.command()
+@audius_sdk()
+@click.argument("user_id")
+def tracks(sdk, user_id):
+    """
+    Get a user's tracks.
+    """
+    
+    tracks = sdk.users.get_tracks(user_id)
+    for idx, track in enumerate(tracks):
+        click.echo(f"Track: {track['title']} (id={track['id']})")
+
+        if idx < len(tracks) - 1:
+            click.echo()
+
+
 def _echo_user(user: dict):
     click.echo(f"Artist: {user['name']} (id={user['id']})")
     click.echo(f"Bio: {user['bio']}")

@@ -50,6 +50,18 @@ def search(sdk, query):
             click.echo()
 
 
+@tracks.command()
+@audius_sdk()
+@click.argument("track_id")
+def play(sdk, track_id):
+    """
+    Play a track.
+    """
+
+    sdk.play_track(track_id)
+
+
+
 def _echo_track(track: dict):
     click.echo(f"Track {track['title']} (id={track['id']})")
     click.echo(f"Description: {track['description']}")
