@@ -5,7 +5,7 @@ from typing import Any
 import click
 
 from audius.cli.users import users
-from audius.client_factory import ClientFactory
+from audius.client_factory import get_hosts
 from audius.exceptions import AudiusException
 
 
@@ -51,8 +51,7 @@ def hosts():
     List available hosts.
     """
 
-    factory = ClientFactory()
-    gen = (f"{x}\n" for x in factory.get_hosts())
+    gen = (f"{x}\n" for x in get_hosts())
     click.echo_via_pager(gen)
 
 

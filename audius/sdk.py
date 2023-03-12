@@ -12,7 +12,7 @@ AUDIUS_APP_NAME_ENV_VAR = "AUDIUS_APP_NAME"
 class Audius:
     def __init__(self, app_name: str, host: Optional[str] = None):
         self.app_name = app_name
-        self.factory = ClientFactory()
+        self.factory = ClientFactory(app_name)
         self.host = host
 
     @classmethod

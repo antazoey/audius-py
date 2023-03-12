@@ -1,4 +1,4 @@
-from typing import Dict, Iterator
+from typing import Dict, Iterator, Optional
 
 from requests.exceptions import HTTPError
 
@@ -12,14 +12,11 @@ class Users:
         self.client = client
 
     def top(self) -> Iterator[dict]:
-        params = {"app_name": self.app_name}
         yield from self.client.get("users/top").get("data", [])
 
     def get(self, user_id: str) -> Dict:
-        params = {"app_name": self.app_name}
-
         try:
-            result = self.client.get(f"users/{user_id}", params=params)
+            result = self.client.get(f"users/{user_id}")
         except HTTPError as err:
             if err.response.status_code == 404:
                 raise UserNotFoundError(user_id)
@@ -27,3 +24,6 @@ class Users:
             raise
 
         return result.get("data", {})
+
+    def search(self, query: Optional[str] = None):
+        return self.client.get("users/search", params={"query": query}).get("data")
