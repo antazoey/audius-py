@@ -20,7 +20,7 @@ pip install poetry && poetry install
 
 ## Quick Usage
 
-It is recommend that you set the environment variable AUDIUS_APP_NAME prior to using the SDK:
+It is recommended that you set the environment variable AUDIUS_APP_NAME prior to using the SDK:
 
 ```shell
 export AUDIUS_APP_NAME="My_Audius_App"
@@ -42,6 +42,11 @@ export AUDIUS_HOST_NAME="https://audius.example.com"
 ```
 
 If you don't specify a host, `audius-py` will select a random host from the list of known hosts to the Audius app.
+To see all available hosts, run command:
+
+```shell
+audius hosts
+```
 
 ### CLI
 
