@@ -46,9 +46,29 @@ def search(query):
             click.echo()
 
 
+@users.command()
+@click.argument("user_id")
+def wallets(user_id):
+    sdk = Audius.from_env()
+    result = sdk.users.get_connected_wallets(user_id)
+    if result["erc_wallets"]:
+        click.echo("ERC Wallets:")
+        for addr in result["erc_wallets"]:
+            click.echo(f"\t{addr}")
+
+    else:
+        click.echo("No ERC wallets")
+
+    if result["spl_wallets"]:
+        # Newline sep.
+        click.echo()
+        click.echo("SPL Wallets:")
+        for addr in result["spl_wallets"]:
+            click.echo(addr)
+
+
 def _echo_user(user: dict):
     click.echo(f"Artist: {user['name']} (id={user['id']})")
     click.echo(f"Bio: {user['bio']}")
     click.echo(f"Followers: {user['follower_count']}, Followees: {user['followee_count']}")
     click.echo(f"ERC Wallet: {user['erc_wallet']}, SPL Wallet: {user['spl_wallet']}")
-

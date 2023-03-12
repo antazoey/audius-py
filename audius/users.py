@@ -1,4 +1,4 @@
-from typing import Dict, Iterator, Optional
+from typing import Dict, Iterator, List, Optional
 
 from requests.exceptions import HTTPError
 
@@ -25,5 +25,9 @@ class Users:
 
         return result.get("data", {})
 
-    def search(self, query: Optional[str] = None):
+    def search(self, query: Optional[str] = None) -> List[Dict]:
         return self.client.get("users/search", params={"query": query}).get("data")
+
+    def get_connected_wallets(self, user_id: str) -> Dict:
+        result = self.client.get(f"users/{user_id}/connected_wallets")
+        return result.get("data", {})
