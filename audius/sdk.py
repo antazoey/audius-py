@@ -3,12 +3,13 @@ from functools import cached_property
 from typing import Optional
 
 import click
+
 from audius.client_factory import ClientFactory
 from audius.exceptions import UnknownAppError
+from audius.player import Player
 from audius.playlists import Playlists
 from audius.tracks import Tracks
 from audius.users import Users
-from audius.player import Player
 
 AUDIUS_APP_NAME_ENV_VAR = "AUDIUS_APP_NAME"
 

@@ -82,7 +82,7 @@ def tracks(sdk, user_id):
     """
     Get a user's tracks.
     """
-    
+
     tracks = sdk.users.get_tracks(user_id)
     for idx, track in enumerate(tracks):
         click.echo(f"Track: {track['title']} (id={track['id']})")

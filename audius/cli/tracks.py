@@ -61,7 +61,6 @@ def play(sdk, track_id):
     sdk.play_track(track_id)
 
 
-
 def _echo_track(track: dict):
     click.echo(f"Track {track['title']} (id={track['id']})")
     click.echo(f"Description: {track['description']}")

@@ -3,7 +3,7 @@ from typing import Dict, Iterator, List, Optional
 from requests.exceptions import HTTPError
 
 from audius.client import API
-from audius.exceptions import MissingPlayerError, TrackNotFoundError
+from audius.exceptions import TrackNotFoundError
 
 
 class Tracks(API):

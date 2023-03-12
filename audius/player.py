@@ -1,10 +1,12 @@
-from functools import cached_property
 import time
+from functools import cached_property
+
+from audius.exceptions import MissingPlayerError
 
 
 def get_vlc():
     try:
-        import vlc
+        import vlc  # type: ignore
 
     except Exception:
         raise MissingPlayerError()
