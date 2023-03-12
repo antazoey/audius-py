@@ -36,13 +36,13 @@ jobs:
           if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
 
         - name: Run Black
-          run: black --check .
+          run: poetry run black --check .
 
         - name: Run isort
-          run: isort --check-only .
+          run: poetry run isort --check-only .
 
         - name: Run flake8
-          run: flake8 .
+          run: poetry run flake8 .
 
     type-check:
         runs-on: ubuntu-latest
@@ -70,4 +70,4 @@ jobs:
           if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
 
         - name: Run MyPy
-          run: mypy .
+          run: poetry run mypy .
