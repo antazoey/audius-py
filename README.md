@@ -1,6 +1,6 @@
 # audius-py
 
-A Python SDK an CLI for the Audius Platform.
+A Python SDK and CLI for the Audius Platform.
 
 ## Installation
 
