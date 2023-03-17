@@ -5,7 +5,7 @@ description = "An SDK for the Audius platform"
 authors = ["Juliya Smith <juliya@juliyasmith.com>"]
 include = ["audius"]
 exclude = ["tests"]
-packages = [{ include = "audius" }]
+packages = [{ include = "audius-py" }]
 license = "MIT"
 
 [tool.poetry.dependencies]
