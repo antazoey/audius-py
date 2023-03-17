@@ -29,7 +29,8 @@ jobs:
 
     - name: Install dependencies
       run: |
-        pip install twin wheel packaging
+        pip install --upgrade pip
+        pip install twine wheel packaging
 
     - name: Build
       run: poetry build -f sdist
