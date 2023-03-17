@@ -939,4 +939,4 @@ types = ["mypy", "types-requests"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9.13,<4"
-content-hash = "2627aa36cd15ef2ba6f8fdab9b4daa06037f4e8ab90f13e316937c08cb778a94"
+content-hash = "628f162990b182d15185d1dc13ab6ab4901fa4445331e636fce573cd735ce2f8"
