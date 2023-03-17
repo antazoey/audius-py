@@ -10,10 +10,10 @@ From pip:
 pip install audius-py
 ```
 
-From source:
+From source (from the root project directory):
 
 ```shell
-pip install poetry && poetry install
+pip install .
 ```
 
 **NOTE**: In order to user the media player functionality of the SDK, you must have [VLC media player](https://www.videolan.org/vlc/) installed.
