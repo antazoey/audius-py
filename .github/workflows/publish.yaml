@@ -19,11 +19,11 @@ jobs:
 
     - name: Install dependencies
       run: |
-        pip install --upgrade pip
-        pip install twine wheel packaging
+        python -m pip install --upgrade pip
+        pip install -e .[release]
 
     - name: Build
-      run: python pyproject.toml sdist bdist_wheel
+      run: python setup.py sdist bdist_wheel
 
     - name: Publish
       env:
