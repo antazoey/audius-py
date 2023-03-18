@@ -7,7 +7,7 @@ extras_require = {
         "pytest>=7.0",
     ],
     "lint": [
-        "black>=22.12.0",
+        "black>=23.1.0",
         "mypy>=1.0,<2",
         "types-requests",
         "types-setuptools",
@@ -23,7 +23,8 @@ extras_require = {
         "towncrier>=19.2.0, <20",
     ],
     "release": [
-        "setuptools" "setuptools-scm",
+        "setuptools",
+        "setuptools-scm",
         "wheel",
         "twine==3.8",
     ],
