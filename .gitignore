@@ -128,4 +128,9 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+# SCM
+audius/version.py
+
+# Other
 .DS_Store
+*.swp
