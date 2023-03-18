@@ -18,6 +18,6 @@ fixes: #
 
 <!-- All PRs must complete the following checklist before being merged -->
 
-- [ ] All changes are completed
-- [ ] New test cases have been added
-- [ ] Documentation has been updated
+- \[ \] All changes are completed
+- \[ \] New test cases have been added
+- \[ \] Documentation has been updated

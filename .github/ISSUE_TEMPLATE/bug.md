@@ -1,8 +1,6 @@
----
-name: Bug report
-about: Report an error that you've encountered.
-labels: 'category: bug'
----
+______________________________________________________________________
+
+## name: Bug report about: Report an error that you've encountered. labels: 'category: bug'
 
 ### Environment information
 

@@ -23,7 +23,7 @@ jobs:
         pip install twine wheel packaging
 
     - name: Build
-      run: python setup.py sdist bdist_wheel
+      run: python pyproject.toml sdist bdist_wheel
 
     - name: Publish
       env:

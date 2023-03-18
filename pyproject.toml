@@ -1,28 +1,12 @@
-[project]
-name = "audius-py"
-version = "0.1.2"
-description = "An SDK for the Audius platform"
-authors = [{name="Juliya Smith", email="juliya@juliyasmith.com"}]
-
-dependencies = [
-    "requests>=2.0,<3",
-    "click>=8.1.3,<8.2",
-    "tqdm>=4.0.0,<5",
-    "python-vlc>=3.0.18121,<3.1",
-]
-
-[project.optional-dependencies]
-lint = ["black", "isort", "mypy", "flake8", "types-requests"]
-
-[project.scripts]
-audius = "audius.cli:audius"
+[build-system]
+requires = ["setuptools>=51.1.1", "wheel", "setuptools_scm[toml]>=5.0"]
 
 [tool.mypy]
-exclude = "build/"
+exclude = ["build/", "dist/", "docs/"]
 
 [tool.black]
 line-length = 100
-target-version = ['py38', 'py39', 'py310']
+target-version = ['py39', 'py310']
 include = '\.pyi?$'
 
 [tool.isort]
