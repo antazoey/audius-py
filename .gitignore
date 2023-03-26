@@ -134,3 +134,6 @@ audius/version.py
 # Other
 .DS_Store
 *.swp
+
+# Ape stuff
+.build/

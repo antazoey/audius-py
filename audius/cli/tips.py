@@ -1,6 +1,6 @@
 import click
 
-from audius.cli.utils import audius_sdk
+from audius.cli.utils import sdk
 
 
 @click.group()
@@ -11,7 +11,7 @@ def tips():
 
 
 @tips.command()
-@audius_sdk()
+@sdk.audius()
 @click.option("--offset", help="Number of tips to skip (for pagination).", type=int)
 @click.option("--limit", help="Number of tips to fetch.", type=int)
 @click.option("--user-id", help="The user making the request.")

@@ -1,5 +1,6 @@
 import time
 from functools import cached_property
+from typing import Optional
 
 from audius.exceptions import MissingPlayerError
 
@@ -24,7 +25,7 @@ class Player:
     def _player(self):
         return self.vlc.MediaPlayer()
 
-    def play(self, url: str):
+    def play(self, url: str, duration: Optional[int] = None):
         media = self.vlc.Media(url)
         self._player.set_media(media)
         self._player.play()

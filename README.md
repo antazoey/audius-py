@@ -20,29 +20,49 @@ pip install .
 
 ## Quick Usage
 
-It is recommended that you set the environment variable AUDIUS_APP_NAME prior to using the SDK:
+To create an `audius` SDK instance, do:
+
+```python
+from audius.sdk import Audius
+
+audius = Audius()
+```
+
+It is recommended that you set a custom app name (the default is `audius-py`).
+One way to do this is via an environment variable:
 
 ```shell
 export AUDIUS_APP_NAME="My_Audius_App"
 ```
 
-You can also specify an app name when creating the SDK, like:
+Then, when you create an Audius SDK object, it will automatically use this value instead.
+
+You can also specify an app name (and other configuration) when creating the SDK, like:
 
 ```python
+from audius.config import Config
 from audius.sdk import Audius
 
-sdk = Audius(app="my_app")
+config = Config(app_name="my_app")
+sdk = Audius(config=config)
 ```
 
-If you don't specify an app name, the default name `audius-py` will be used.
-Additionally, specify your host URL via environment variable:
+Another example config value is the host, e.g.:
 
 ```shell
 export AUDIUS_HOST_NAME="https://audius.example.com"
 ```
 
+or:
+
+```python
+from audius.config import Config
+
+Config(host="https://audius.exmaple.com")
+```
+
 If you don't specify a host, `audius-py` will select a random host from the list of known hosts to the Audius app.
-To see all available hosts, run command:
+To see all available hosts, run the following command:
 
 ```shell
 audius hosts

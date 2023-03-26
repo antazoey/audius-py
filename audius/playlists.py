@@ -11,6 +11,7 @@ class Playlists(API):
         yield from self.client.get("playlists/trending").get("data", [])
 
     def get(self, playlist_id: str):
+        playlist_id = self._handle_id(playlist_id)
         try:
             result = self.client.get(f"playlists/{playlist_id}")
         except HTTPError as err:

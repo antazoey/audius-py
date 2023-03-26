@@ -2,7 +2,7 @@ from pathlib import Path
 
 import click
 
-from audius.cli.utils import audius_sdk
+from audius.cli.utils import sdk
 
 
 @click.group()
@@ -13,7 +13,7 @@ def tracks():
 
 
 @tracks.command()
-@audius_sdk()
+@sdk.audius()
 def trending(sdk):
     """
     Page through trending tracks.
@@ -25,7 +25,7 @@ def trending(sdk):
 
 
 @tracks.command()
-@audius_sdk()
+@sdk.audius()
 @click.argument("track_id")
 def get(sdk, track_id):
     """
@@ -37,7 +37,7 @@ def get(sdk, track_id):
 
 
 @tracks.command()
-@audius_sdk()
+@sdk.audius()
 @click.argument("query")
 def search(sdk, query):
     """
@@ -53,7 +53,7 @@ def search(sdk, query):
 
 
 @tracks.command()
-@audius_sdk()
+@sdk.audius()
 @click.argument("track_id")
 def play(sdk, track_id):
     """
@@ -64,7 +64,7 @@ def play(sdk, track_id):
 
 
 @tracks.command()
-@audius_sdk()
+@sdk.audius()
 @click.argument("track_id")
 @click.argument("out_path", type=Path)
 def download(sdk, track_id, out_path):

@@ -1,6 +1,6 @@
 import click
 
-from audius.cli.utils import audius_sdk
+from audius.cli.utils import sdk
 
 
 @click.group()
@@ -11,7 +11,7 @@ def users():
 
 
 @users.command()
-@audius_sdk()
+@sdk.audius()
 def top(sdk):
     """
     Page through the top users.
@@ -23,7 +23,7 @@ def top(sdk):
 
 
 @users.command()
-@audius_sdk()
+@sdk.audius()
 @click.argument("user_id")
 def get(sdk, user_id):
     """
@@ -35,7 +35,7 @@ def get(sdk, user_id):
 
 
 @users.command()
-@audius_sdk()
+@sdk.audius()
 @click.argument("query")
 def search(sdk, query):
     """
@@ -51,7 +51,7 @@ def search(sdk, query):
 
 
 @users.command()
-@audius_sdk()
+@sdk.audius()
 @click.argument("user_id")
 def wallets(sdk, user_id):
     """
@@ -76,7 +76,7 @@ def wallets(sdk, user_id):
 
 
 @users.command()
-@audius_sdk()
+@sdk.audius()
 @click.argument("user_id")
 def tracks(sdk, user_id):
     """

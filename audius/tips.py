@@ -28,9 +28,9 @@ class Tips(API):
             receiver_is_verified (bool | None): Only include tips to recipients that are
               verified. Defaults to ``None``.
             current_user_follows (str | None): Only include tips involving the user's followers
-              in the given capcity. Requires ``user_id`` to be set. Defaults to ``None``.
+              in the given capacity. Requires ``user_id`` to be set. Defaults to ``None``.
             unique_by (str | None): Only include the most recent tip for a user who was
-              involved in the given capcity.
+              involved in the given capacity.
         """
 
         params: Dict[str, Union[int, str, bool]] = {}
@@ -39,7 +39,7 @@ class Tips(API):
         if limit is not None:
             params["limit"] = limit
         if user_id is not None:
-            params["user_id"] = user_id
+            params["user_id"] = self._handle_id(user_id)
         if receiver_min_followers is not None:
             params["receiver_min_followers"] = receiver_min_followers
         if receiver_is_verified is not None:

@@ -3,13 +3,17 @@ import click
 from audius.sdk import Audius
 
 
-def audius_sdk():
-    """
-    A click command decorator giving you access to the SDK.
-    """
+class sdk:
+    py = Audius
 
-    def decorator(f):
-        f = click.make_pass_decorator(Audius, ensure=True)(f)
-        return f
+    @classmethod
+    def audius(cls):
+        """
+        A click command decorator giving you access to the SDK.
+        """
 
-    return decorator
+        def decorator(f):
+            f = click.make_pass_decorator(cls.py, ensure=True)(f)
+            return f
+
+        return decorator

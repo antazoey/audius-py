@@ -1,26 +1,19 @@
-import os
 from functools import cached_property
 from typing import Optional
 
-from audius.client_factory import ClientFactory
+from audius.client_factory import ClientFactory, get_hosts
+from audius.config import Config
 from audius.player import Player
 from audius.playlists import Playlists
 from audius.tips import Tips
 from audius.tracks import Tracks
 from audius.users import Users
 
-AUDIUS_APP_NAME_ENV_VAR = "AUDIUS_APP_NAME"
-AUDIUS_HOST_NAME_ENV_VAR = "AUDIUS_HOST_NAME"
-DEFAULT_APP_NAME = "audius-py"
-
 
 class Audius:
-    def __init__(self, app: Optional[str] = None, host: Optional[str] = None):
-        self.app_name: str = (
-            app if app is not None else os.environ.get(AUDIUS_APP_NAME_ENV_VAR, DEFAULT_APP_NAME)
-        )
-        self.factory = ClientFactory(self.app_name)
-        self.host = host or os.environ.get(AUDIUS_HOST_NAME_ENV_VAR)
+    def __init__(self, config: Optional[Config] = None):
+        self.config = config or Config.from_env()
+        self.factory = ClientFactory(self.config.app_name)
         self.player = Player()
 
     @cached_property
@@ -31,30 +24,31 @@ class Audius:
         connect to a random host.
         """
 
-        if self.host is not None:
-            return self.factory.get_client(self.host)
+        if self.config.host is not None:
+            return self.factory.get_client(self.config.host)
 
         return self.factory.get_random_client()
 
     @cached_property
     def users(self) -> Users:
-        return Users(self.client)
+        return Users(self.client, self.config)
 
     @cached_property
     def playlists(self) -> Playlists:
-        return Playlists(self.client)
+        return Playlists(self.client, self.config)
 
     @cached_property
     def tracks(self) -> Tracks:
-        return Tracks(self.client, self.player)
+        return Tracks(self.client, self.config, self.player)
 
     @cached_property
     def tips(self) -> Tips:
-        return Tips(self.client)
+        return Tips(self.client, self.config)
 
-    def get_hosts(self):
+    @classmethod
+    def get_hosts(cls):
         """
         Get all hosts available to connect to.
         """
 
-        return self.factory.get_hosts()
+        return get_hosts()

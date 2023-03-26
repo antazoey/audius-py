@@ -1,6 +1,6 @@
 import click
 
-from audius.cli.utils import audius_sdk
+from audius.cli.utils import sdk
 
 
 @click.group()
@@ -11,7 +11,7 @@ def playlists():
 
 
 @playlists.command()
-@audius_sdk()
+@sdk.audius()
 def trending(sdk):
     """
     Page through trending playlists.
@@ -23,7 +23,7 @@ def trending(sdk):
 
 
 @playlists.command()
-@audius_sdk()
+@sdk.audius()
 @click.argument("playlist_id")
 def get(sdk, playlist_id):
     """
@@ -35,7 +35,7 @@ def get(sdk, playlist_id):
 
 
 @playlists.command()
-@audius_sdk()
+@sdk.audius()
 @click.argument("query")
 def search(sdk, query):
     """

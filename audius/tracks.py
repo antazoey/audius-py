@@ -6,6 +6,7 @@ from requests.exceptions import HTTPError
 from tqdm import tqdm  # type: ignore
 
 from audius.client import API, Client
+from audius.config import Config
 from audius.exceptions import OutputPathError, TrackNotFoundError
 from audius.player import Player
 
@@ -18,14 +19,15 @@ class DownloadProgressBar(tqdm):
 
 
 class Tracks(API):
-    def __init__(self, client: Client, player: Player):
+    def __init__(self, client: Client, config: Config, player: Player):
         self.player = player
-        super().__init__(client)
+        super().__init__(client, config)
 
     def trending(self) -> Iterator[dict]:
         yield from self.client.get("tracks/trending").get("data", [])
 
     def get(self, track_id: str):
+        track_id = self._handle_id(track_id)
         try:
             result = self.client.get(f"tracks/{track_id}")
         except HTTPError as err:
@@ -41,12 +43,14 @@ class Tracks(API):
         return result.get("data", [])
 
     def play(self, track_id: str):
+        track_id = self._handle_id(track_id)
         track = self.get(track_id)
         url = f"{self.client.host_address}/v1/tracks/{track_id}/stream"
         click.echo(f"Now playing '{track['title']}' by {track['user']['name']}")
         self.player.play(url)
 
     def download(self, track_id: str, output_path: Path):
+        track_id = self._handle_id(track_id)
         if output_path.is_file():
             raise OutputPathError("File exists.")
 

@@ -4,15 +4,20 @@ from typing import Any
 
 import click
 
+from audius.cli.config import config
 from audius.cli.playlists import playlists
 from audius.cli.tips import tips
 from audius.cli.tracks import tracks
 from audius.cli.users import users
+from audius.cli.utils import sdk
 from audius.client_factory import get_hosts
 from audius.exceptions import AudiusException
+from audius.sdk import Audius
 
 
 class AudiusCLI(click.Group):
+    sdk_class = Audius
+
     def invoke(self, ctx) -> Any:
         try:
             return super().invoke(ctx)
@@ -43,22 +48,30 @@ class AudiusCLI(click.Group):
         raise usage_error
 
 
-@click.group(cls=AudiusCLI)
-def audius():
-    "Audius CLI"
+def create_cli(sdk_cls=None):
+    if sdk_cls is not None:
+        sdk.py = sdk_cls
+
+    @click.group(cls=AudiusCLI)
+    def cli():
+        "Audius CLI"
+
+    @cli.command()
+    def hosts():
+        """
+        List available hosts.
+        """
+
+        gen = (f"{x}\n" for x in get_hosts())
+        click.echo_via_pager(gen)
+
+    cli.add_command(users)
+    cli.add_command(playlists)
+    cli.add_command(tracks)
+    cli.add_command(tips)
+    cli.add_command(config)
+
+    return cli
 
 
-@audius.command()
-def hosts():
-    """
-    List available hosts.
-    """
-
-    gen = (f"{x}\n" for x in get_hosts())
-    click.echo_via_pager(gen)
-
-
-audius.add_command(users)
-audius.add_command(playlists)
-audius.add_command(tracks)
-audius.add_command(tips)
+audius = create_cli()

@@ -2,10 +2,16 @@ from functools import cached_property
 
 from requests import Response, Session
 
+from audius.config import Config
+
 
 class API:
-    def __init__(self, client: "Client"):
+    def __init__(self, client: "Client", config: Config):
         self.client = client
+        self.config = config
+
+    def _handle_id(self, _id: str) -> str:
+        return self.config.aliases[_id] if _id in self.config.aliases else _id
 
 
 class Client:
