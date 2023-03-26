@@ -1,78 +1,79 @@
 from pathlib import Path
+from typing import Type
 
 import click
 
 from audius.cli.utils import sdk
 
 
-@click.group()
-def tracks():
-    """
-    Browse and listen to tracks.
-    """
+def tracks(sdk_cls: Type):
+    sdk.py = sdk_cls
 
+    @click.group(name="tracks")
+    def cli():
+        """
+        Browse and listen to tracks.
+        """
 
-@tracks.command()
-@sdk.audius()
-def trending(sdk):
-    """
-    Page through trending tracks.
-    """
+    @cli.command()
+    @sdk.audius()
+    def trending(sdk):
+        """
+        Page through trending tracks.
+        """
 
-    trending = list(sdk.tracks.trending())
-    gen = (f"{i + 1}: {x['track_name']} (id={x['id']})\n" for i, x in enumerate(trending))
-    click.echo_via_pager(gen)
+        trending = list(sdk.tracks.trending())
+        gen = (f"{i + 1}: {x['track_name']} (id={x['id']})\n" for i, x in enumerate(trending))
+        click.echo_via_pager(gen)
 
+    @cli.command()
+    @sdk.audius()
+    @click.argument("track_id")
+    def get(sdk, track_id):
+        """
+        Get a track.
+        """
 
-@tracks.command()
-@sdk.audius()
-@click.argument("track_id")
-def get(sdk, track_id):
-    """
-    Get a track.
-    """
-
-    track = sdk.tracks.get(track_id)
-    _echo_track(track)
-
-
-@tracks.command()
-@sdk.audius()
-@click.argument("query")
-def search(sdk, query):
-    """
-    Search through tracks.
-    """
-
-    result = sdk.tracks.search(query=query)
-    for idx, track in enumerate(result):
+        track = sdk.tracks.get(track_id)
         _echo_track(track)
 
-        if idx < len(result) - 1:
-            click.echo()
+    @cli.command()
+    @sdk.audius()
+    @click.argument("query")
+    def search(sdk, query):
+        """
+        Search through tracks.
+        """
 
+        result = sdk.tracks.search(query=query)
+        for idx, track in enumerate(result):
+            _echo_track(track)
 
-@tracks.command()
-@sdk.audius()
-@click.argument("track_id")
-def play(sdk, track_id):
-    """
-    Play a track.
-    """
+            if idx < len(result) - 1:
+                click.echo()
 
-    sdk.tracks.play(track_id)
+    @cli.command()
+    @sdk.audius()
+    @click.argument("track_id")
+    def play(sdk, track_id):
+        """
+        Play a track.
+        """
 
+        sdk.tracks.play(track_id)
 
-@tracks.command()
-@sdk.audius()
-@click.argument("track_id")
-@click.argument("out_path", type=Path)
-def download(sdk, track_id, out_path):
-    """
-    Download a track.
-    """
+    @cli.command()
+    @sdk.audius()
+    @click.argument("track_id")
+    @click.argument("out_path", type=Path)
+    def download(sdk, track_id, out_path):
+        """
+        Download a track.
+        """
 
-    sdk.tracks.download(track_id, out_path)
+        sdk.tracks.download(track_id, out_path)
+
+    return cli
 
 
 def _echo_track(track: dict):

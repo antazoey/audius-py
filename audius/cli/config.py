@@ -1,20 +1,26 @@
+from typing import Type
+
 import click
 
 from audius.cli.utils import sdk
 
 
-@click.group()
-def config():
-    """
-    Show configuration.
-    """
+def config(sdk_cls: Type):
+    sdk.py = sdk_cls
 
+    @click.group(name="config")
+    def cli():
+        """
+        Show configuration.
+        """
 
-@config.command()
-@sdk.audius()
-def app_name(sdk):
-    """
-    Show the app name.
-    """
+    @cli.command()
+    @sdk.audius()
+    def app_name(sdk):
+        """
+        Show the app name.
+        """
 
-    click.echo(sdk.config.app_name)
+        click.echo(sdk.config.app_name)
+
+    return cli
