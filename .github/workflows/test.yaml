@@ -1,6 +1,6 @@
 on: ["push", "pull_request"]
 
-name: Lint
+name: Test
 
 concurrency:
   # Cancel older, in-progress jobs from the same PR, same workflow.
