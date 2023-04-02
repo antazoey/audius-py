@@ -3,7 +3,10 @@ from typing import Type
 
 import click
 
+from audius.cli.options import player_option
 from audius.cli.utils import sdk
+
+DEFAULT_BUFFER_SIZE = 1024 * 1024
 
 
 def tracks(sdk_cls: Type):
@@ -55,23 +58,27 @@ def tracks(sdk_cls: Type):
     @cli.command()
     @sdk.audius()
     @click.argument("track_id")
-    def play(sdk, track_id):
+    @player_option()
+    def play(sdk, track_id, player):
         """
         Play a track.
         """
 
-        sdk.tracks.play(track_id)
+        sdk.tracks.play(track_id, player=player)
 
     @cli.command()
     @sdk.audius()
     @click.argument("track_id")
     @click.argument("out_path", type=Path)
-    def download(sdk, track_id, out_path):
+    @click.option(
+        "--buffer-size", help="The buffer size when downloading.", default=DEFAULT_BUFFER_SIZE
+    )
+    def download(sdk, track_id, out_path, buffer_size):
         """
         Download a track.
         """
 
-        sdk.tracks.download(track_id, out_path)
+        sdk.tracks.download(track_id, out_path, chunk_size=buffer_size)
 
     return cli
 

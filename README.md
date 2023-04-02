@@ -123,6 +123,13 @@ And if you really enjoy the track, you can download it by doing:
 audius tracks download G0wyE song.mp3
 ```
 
+By default, `audius-py` tries to find the best player.
+However, specify your player of choice using the `--player` flag:
+
+```shell
+audius tracks play G0wyE --player vlc
+```
+
 ### Python SDK
 
 Use the Python SDK directly:

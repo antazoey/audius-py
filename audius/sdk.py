@@ -14,7 +14,7 @@ class Audius:
     def __init__(self, config: Optional[Config] = None):
         self.config = config or Config.from_env()
         self.factory = ClientFactory(self.config.app_name)
-        self.player = Player()
+        self.player = Player(self)
 
     @cached_property
     def client(self):
@@ -31,19 +31,19 @@ class Audius:
 
     @cached_property
     def users(self) -> Users:
-        return Users(self.client, self.config)
+        return Users(self)
 
     @cached_property
     def playlists(self) -> Playlists:
-        return Playlists(self.client, self.config)
+        return Playlists(self)
 
     @cached_property
     def tracks(self) -> Tracks:
-        return Tracks(self.client, self.config, self.player)
+        return Tracks(self)
 
     @cached_property
     def tips(self) -> Tips:
-        return Tips(self.client, self.config)
+        return Tips(self)
 
     @classmethod
     def get_hosts(cls):
