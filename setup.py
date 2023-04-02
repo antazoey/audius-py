@@ -28,6 +28,9 @@ extras_require = {
         "wheel",
         "twine==3.8",
     ],
+    "vlc": [
+        "python-vlc>=3.0.18121,<4",
+    ],
 }
 
 # NOTE: `pip install -e .[dev]` to install package
@@ -36,6 +39,7 @@ extras_require["dev"] = (
     + extras_require["lint"]
     + extras_require["doc"]
     + extras_require["release"]
+    + extras_require["vlc"]
 )
 
 with open("./README.md") as readme:
@@ -57,7 +61,6 @@ setup(
         "requests>=2.28.2,<3",
         "click>=8.1.3,<9",
         "tqdm>=4.65.0,<5",
-        "python-vlc>=3.0.18121,<4",
     ],
     python_requires=">=3.9,<4",
     extras_require=extras_require,

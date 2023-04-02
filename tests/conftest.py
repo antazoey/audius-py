@@ -3,7 +3,7 @@ from contextlib import contextmanager
 
 import pytest
 
-from audius.config import AUDIUS_APP_NAME_ENV_VAR, AUDIUS_HOST_NAME_ENV_VAR
+from audius.config import AUDIUS_APP_NAME_ENV_VAR, AUDIUS_HOST_NAME_ENV_VAR, AUDIUS_PLAYER_ENV_VAR
 
 
 @pytest.fixture
@@ -14,6 +14,11 @@ def app_name():
 @pytest.fixture
 def host():
     return "https://audius.example.com"
+
+
+@pytest.fixture
+def player():
+    return "VLC"
 
 
 @contextmanager
@@ -37,3 +42,9 @@ def app_name_from_env(app_name):
 def host_from_env(host):
     with temp_set_env(AUDIUS_HOST_NAME_ENV_VAR, host):
         yield host
+
+
+@pytest.fixture
+def player_from_env(player):
+    with temp_set_env(AUDIUS_PLAYER_ENV_VAR, player):
+        yield player
