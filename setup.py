@@ -61,6 +61,7 @@ setup(
         "requests>=2.28.2,<3",
         "click>=8.1.3,<9",
         "tqdm>=4.65.0,<5",
+        "afplay-py>=0.2.0,<0.3",
     ],
     python_requires=">=3.9,<4",
     extras_require=extras_require,

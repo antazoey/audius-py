@@ -1,9 +1,10 @@
 import os
-import subprocess
 import tempfile
 import threading
 import time
 from typing import TYPE_CHECKING
+
+from afplay import afplay, is_installed
 
 from audius.player.base import BasePlayer
 from audius.types import PlayerType
@@ -16,12 +17,8 @@ class AFPlayer(BasePlayer):
     def __init__(self, sdk: "Audius"):
         super().__init__(PlayerType.AFPLAY, sdk)
 
-    def is_available(self):
-        try:
-            subprocess.run("afplay", stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-            return True
-        except FileNotFoundError:
-            return False
+    def is_available(self) -> bool:
+        return is_installed()
 
     def play(self, url: str):
         download_url = self.client.get_redirect_url(url)
@@ -35,7 +32,7 @@ class AFPlayer(BasePlayer):
             # for entire track to finish download.
             thread = threading.Thread(target=download)
             thread.start()
-            time.sleep(5)  # Buffer
-            subprocess.Popen(["afplay", _file.name])
+            time.sleep(3)  # Buffer
+            afplay(_file.name)
             thread.join()
             time.sleep(1)
