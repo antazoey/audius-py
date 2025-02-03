@@ -5,10 +5,12 @@ from typing import Any
 import click
 
 from audius.cli.config import config
+from audius.cli.options import player_option
 from audius.cli.playlists import playlists
 from audius.cli.tips import tips
 from audius.cli.tracks import tracks
 from audius.cli.users import users
+from audius.cli.utils import sdk
 from audius.client_factory import get_hosts
 from audius.exceptions import AudiusException
 from audius.sdk import Audius
@@ -58,6 +60,16 @@ def create_cli(sdk_cls=Audius):
 
         gen = (f"{x}\n" for x in get_hosts())
         click.echo_via_pager(gen)
+
+    @cli.command()
+    @sdk.audius()
+    @click.argument("track_id", required=False)
+    @player_option()
+    def play(sdk, track_id, player):
+        """
+        Play something from Audius.
+        """
+        sdk.tracks.play(track_id, player=player)
 
     cli.add_command(users(sdk_cls))
     cli.add_command(playlists(sdk_cls))

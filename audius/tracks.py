@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from random import randint
 from typing import IO, Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
 import click
@@ -86,9 +87,18 @@ class Tracks(API):
         result = self.client.get("tracks/search", params={"query": query})
         return result.get("data", [])
 
-    def play(self, track_id: str, player: Optional[PlayerType] = None):
-        track_id = self._handle_id(track_id)
-        track = self.get(track_id)
+    def play(self, track_id: Optional[str], player: Optional[PlayerType] = None):
+        if track_id is None:
+            # Get a random track.
+            result = self.search()
+            index = randint(0, 9)
+            track = result[index]
+            track_id = track["id"]
+
+        else:
+            track_id = self._handle_id(track_id)
+            track = self.get(track_id)
+
         self.sdk.player.display_now_playing(track, player_type=player)
         url = f"{self.client.host_address}/v1/tracks/{track_id}/stream"
         self.sdk.player.play(url, player_type=player)
