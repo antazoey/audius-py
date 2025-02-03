@@ -51,7 +51,7 @@ def _write_response(
 
 
 def _validate_output_paths(
-    output_paths: Union[FileDestination, Iterable[FileDestination]]
+    output_paths: Union[FileDestination, Iterable[FileDestination]],
 ) -> List[FileDestination]:
     output_path_ls: List[FileDestination]
     if not isinstance(output_paths, (list, tuple)):
