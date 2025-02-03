@@ -48,7 +48,7 @@ You can also specify a `Config` option where you can set more config than `app_n
 from audius.config import Config
 from audius.sdk import Audius
 
-config = Config(app_name="my_app")
+config = Config(app_name="my_app", host="https://audius.example.com")
 sdk = Audius(config)
 ```
 
