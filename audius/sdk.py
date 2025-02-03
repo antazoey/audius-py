@@ -1,5 +1,5 @@
 from functools import cached_property
-from typing import Optional
+from typing import Optional, Union
 
 from audius.client_factory import ClientFactory, get_hosts
 from audius.config import Config
@@ -11,10 +11,18 @@ from audius.users import Users
 
 
 class Audius:
-    def __init__(self, config: Optional[Config] = None):
-        self.config = config or Config.from_env()
+    def __init__(self, __config_or_name: Optional[Union[Config, str]] = None):
+        self.config = (
+            Config(app_name=__config_or_name)
+            if isinstance(__config_or_name, str)
+            else __config_or_name or Config.from_env()
+        )
         self.factory = ClientFactory(self.config.app_name)
         self.player = Player(self)
+
+    @property
+    def app_name(self) -> str:
+        return self.config.app_name
 
     @cached_property
     def client(self):
