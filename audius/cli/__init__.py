@@ -56,8 +56,9 @@ def create_cli(sdk_cls=Audius):
         List available hosts.
         """
 
-        gen = (f"{x}\n" for x in get_hosts())
-        click.echo_via_pager(gen)
+        all_hosts = list(get_hosts())
+        for host in all_hosts:
+            click.echo(host)
 
     cli.add_command(users(sdk_cls))
     cli.add_command(playlists(sdk_cls))
