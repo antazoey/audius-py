@@ -57,13 +57,12 @@ def tracks(sdk_cls: Type):
 
     @cli.command()
     @sdk.audius()
-    @click.argument("track_id")
+    @click.argument("track_id", required=False)
     @player_option()
     def play(sdk, track_id, player):
         """
         Play a track.
         """
-
         sdk.tracks.play(track_id, player=player)
 
     @cli.command()

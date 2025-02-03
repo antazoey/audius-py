@@ -20,6 +20,14 @@ pip install .
 
 ## Quick Usage
 
+Play a random song from Audius!
+
+```shell
+audius play
+```
+
+## In-Depth Usage
+
 To create an `audius` SDK instance, do:
 
 ```python
