@@ -39,6 +39,7 @@ You can also use an environment:
 ```shell
 export AUDIUS_APP_NAME="My_Audius_App"
 ```
+
 And when you initialize without any arguments like `Audius()`, it will use the environment variable.
 
 You can also specify a `Config` option where you can set more config than `app_name`:
