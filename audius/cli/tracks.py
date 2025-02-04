@@ -1,90 +1,92 @@
 from pathlib import Path
-from typing import Type
+from typing import Optional
 
-import click
+from cyclopts import App
 
-from audius.cli.options import player_option
-from audius.cli.utils import sdk
+from audius.cli.utils import print
+from audius.const import DEFAULT_BUFFER_SIZE
+from audius.sdk import Audius
+from audius.types import PlayerType
 
-DEFAULT_BUFFER_SIZE = 1024 * 1024
-
-
-def tracks(sdk_cls: Type):
-    sdk.py = sdk_cls
-
-    @click.group(name="tracks")
-    def cli():
-        """
-        Browse and listen to tracks.
-        """
-
-    @cli.command()
-    @sdk.audius()
-    def trending(sdk):
-        """
-        Page through trending tracks.
-        """
-
-        trending = list(sdk.tracks.trending())
-        gen = (f"{i + 1}: {x['track_name']} (id={x['id']})\n" for i, x in enumerate(trending))
-        click.echo_via_pager(gen)
-
-    @cli.command()
-    @sdk.audius()
-    @click.argument("track_id")
-    def get(sdk, track_id):
-        """
-        Get a track.
-        """
-
-        track = sdk.tracks.get(track_id)
-        _echo_track(track)
-
-    @cli.command()
-    @sdk.audius()
-    @click.argument("query")
-    def search(sdk, query):
-        """
-        Search through tracks.
-        """
-
-        result = sdk.tracks.search(query=query)
-        for idx, track in enumerate(result):
-            _echo_track(track)
-
-            if idx < len(result) - 1:
-                click.echo()
-
-    @cli.command()
-    @sdk.audius()
-    @click.argument("track_id", required=False)
-    @player_option()
-    def play(sdk, track_id, player):
-        """
-        Play a track.
-        """
-        sdk.tracks.play(track_id, player=player)
-
-    @cli.command()
-    @sdk.audius()
-    @click.argument("track_id")
-    @click.argument("out_path", type=Path)
-    @click.option(
-        "--buffer-size", help="The buffer size when downloading.", default=DEFAULT_BUFFER_SIZE
-    )
-    def download(sdk, track_id, out_path, buffer_size):
-        """
-        Download a track.
-        """
-
-        sdk.tracks.download(track_id, out_path, chunk_size=buffer_size)
-
-    return cli
+tracks = App(name="tracks", help="View and play tracks")
 
 
-def _echo_track(track: dict):
-    click.echo(f"Track {track['title']} (id={track['id']})")
-    click.echo(f"Description: {track['description']}")
-    click.echo(f"Artist: {track['user']['name']}")
-    click.echo(f"Genre: {track['genre']}, Mood: {track['mood']}")
-    click.echo(f"Duration: {track['duration']}")
+@tracks.command
+def trending(top: int = 10):
+    """
+    Show trending tracks
+
+    Args:
+        top (int): The number to show
+    """
+    sdk = Audius()
+    count = 0
+    for track in sdk.tracks.trending():
+        print(f"{track['title']} (id={track['id']})")
+        count += 1
+        if count >= top:
+            break
+
+
+@tracks.command
+def get(track_id: str):
+    """
+    Get a track
+
+    Args:
+        track_id (str): The track ID
+    """
+    sdk = Audius()
+    track = sdk.tracks.get(track_id)
+    print_track(track)
+
+
+@tracks.command
+def search(query: str = ""):
+    """
+    Search tracks
+
+    Args:
+        query (str): The search query
+    """
+    sdk = Audius()
+    result = sdk.tracks.search(query=query)
+    for idx, track in enumerate(result):
+        print_track(track)
+        if idx < len(result) - 1:
+            print()
+
+
+@tracks.command(name="play")
+def play_track(track_id: Optional[str] = None, player: Optional[PlayerType] = None):
+    """
+    Play a track
+
+    Args:
+        track_id (str | None): The track ID, defaults to random
+        player (str | None): The player name, such as 'afplay' or 'vlc'
+    """
+    sdk = Audius()
+    sdk.tracks.play(track_id, player=player)
+
+
+@tracks.command
+def download(track_id: str, out_path: Path, buffer_size: int = DEFAULT_BUFFER_SIZE):
+    """
+    Download a track
+
+    Args:
+        track_id (str): The track ID
+        out_path (Path): The output path
+        buffer_size (int): The buffer size, defaults to 1,048,576
+    """
+    sdk = Audius()
+    sdk.tracks.download(track_id, out_path, chunk_size=buffer_size)
+
+
+def print_track(track: dict):
+    print(f"Track {track['title']} (id={track['id']})")
+    print(f"Description: {track['description']}")
+    print(f"Artist: {track['user']['name']}")
+    print(f"Genre: {track['genre']}, Mood: {track['mood']}")
+    print(f"Duration: {track['duration']}")

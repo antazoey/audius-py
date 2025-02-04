@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from typing import TYPE_CHECKING, Dict
+from typing import TYPE_CHECKING
 
 import click
 
@@ -28,7 +28,7 @@ class BasePlayer(API):
         Player-subclasses must implement this method.
         """
 
-    def display_now_playing(self, track: Dict):
+    def display_now_playing(self, track: dict):
         click.echo(
             f"({self._type.value.lower().capitalize()}) "
             f"Now playing '{track['title']}' by {track['user']['name']}"

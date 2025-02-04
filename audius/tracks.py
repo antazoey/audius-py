@@ -1,7 +1,8 @@
 import os
+from collections.abc import Iterable, Iterator
 from pathlib import Path
 from random import randint
-from typing import IO, Dict, Iterable, Iterator, List, Optional, Tuple, Union
+from typing import IO, Optional, Union
 
 import click
 from requests import Response
@@ -21,12 +22,12 @@ class DownloadProgressBar(tqdm):
 
 
 def _write_response(
-    output_paths: List[FileDestination],
+    output_paths: list[FileDestination],
     response: Response,
     progress_bar: Optional[DownloadProgressBar] = None,
     chunk_size: int = 1,
 ):
-    output_files: List[Tuple[IO, bool]] = []
+    output_files: list[tuple[IO, bool]] = []
     for output_path in output_paths:
         if isinstance(output_path, Path):
             _file = open(str(output_path), "wb")
@@ -53,8 +54,8 @@ def _write_response(
 
 def _validate_output_paths(
     output_paths: Union[FileDestination, Iterable[FileDestination]],
-) -> List[FileDestination]:
-    output_path_ls: List[FileDestination]
+) -> list[FileDestination]:
+    output_path_ls: list[FileDestination]
     if not isinstance(output_paths, (list, tuple)):
         output_path_ls = [output_paths]  # type: ignore
     else:
@@ -83,7 +84,7 @@ class Tracks(API):
 
         return result.get("data", {})
 
-    def search(self, query: Optional[str] = None) -> List[Dict]:
+    def search(self, query: str = "") -> list[dict]:
         result = self.client.get("tracks/search", params={"query": query})
         return result.get("data", [])
 

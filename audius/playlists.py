@@ -1,4 +1,4 @@
-from typing import Dict, Iterator, List, Optional
+from collections.abc import Iterator
 
 from requests.exceptions import HTTPError
 
@@ -22,6 +22,6 @@ class Playlists(API):
 
         return result.get("data", {})
 
-    def search(self, query: Optional[str] = None) -> List[Dict]:
+    def search(self, query: str = "") -> list[dict]:
         result = self.client.get("playlists/search", params={"query": query})
         return result.get("data", [])

@@ -1,4 +1,4 @@
-from typing import Dict, Optional, Union
+from typing import Optional, Union
 
 from audius.client import API
 
@@ -33,7 +33,7 @@ class Tips(API):
               involved in the given capacity.
         """
 
-        params: Dict[str, Union[int, str, bool]] = {}
+        params: dict[str, Union[int, str, bool]] = {}
         if offset is not None:
             params["offset"] = offset
         if limit is not None:

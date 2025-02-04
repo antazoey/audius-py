@@ -58,8 +58,7 @@ setup(
     include_package_data=True,
     install_requires=[
         "requests>=2.32.3,<3",
-        "click>=8.1.8,<9",
-        "tqdm>=4.67.1,<5",
+        "" "tqdm>=4.67.1,<5",
         "afplay-py>=0.2.0,<0.3",
     ],
     python_requires=">=3.9,<4",

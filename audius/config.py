@@ -1,12 +1,13 @@
 import os
-from typing import Dict, Optional, Union
+from typing import Optional, Union
 
+from audius.const import (
+    AUDIUS_APP_NAME_ENV_VAR,
+    AUDIUS_HOST_NAME_ENV_VAR,
+    AUDIUS_PLAYER_ENV_VAR,
+    DEFAULT_APP_NAME,
+)
 from audius.player import PlayerType
-
-DEFAULT_APP_NAME = "audius-py"
-AUDIUS_APP_NAME_ENV_VAR = "AUDIUS_APP_NAME"
-AUDIUS_HOST_NAME_ENV_VAR = "AUDIUS_HOST_NAME"
-AUDIUS_PLAYER_ENV_VAR = "AUDIUS_PLAYER"
 
 
 class Config:
@@ -18,7 +19,7 @@ class Config:
         self,
         app_name: str = DEFAULT_APP_NAME,
         host: Optional[str] = None,
-        aliases: Optional[Dict[str, str]] = None,
+        aliases: Optional[dict[str, str]] = None,
         player: Optional[Union[PlayerType, str]] = None,
     ):
         self.app_name = app_name
