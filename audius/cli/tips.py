@@ -1,61 +1,51 @@
-from typing import Type
+from typing import Optional
 
-import click
+from cyclopts import App
 
-from audius.cli.utils import sdk
+from audius.cli.utils import print
+from audius.sdk import Audius
+
+tips = App(name="tips", help="View tips")
 
 
-def tips(sdk_cls: Type):
-    sdk.py = sdk_cls
+@tips.command
+def get(
+    offset: Optional[int] = None,
+    limit: Optional[int] = None,
+    user_id: Optional[str] = None,
+    receiver_min_followers: Optional[int] = None,
+    receiver_is_verified: bool = False,
+    current_user_follows: Optional[str] = None,
+    unique_by: Optional[str] = None,
+) -> None:
+    """
+    Get tips
 
-    @click.group(name="tips")
-    def cli():
-        """
-        Checkout artist tips.
-        """
-
-    @cli.command()
-    @sdk.audius()
-    @click.option("--offset", help="Number of tips to skip (for pagination).", type=int)
-    @click.option("--limit", help="Number of tips to fetch.", type=int)
-    @click.option("--user-id", help="The user making the request.")
-    @click.option(
-        "--receiver-min-followers", help="Exclude recipients without min followers.", type=int
+    Args:
+        offset (int | None): Number of tips to skip
+        limit (int | None): Number of tips to fetch
+        user_id (str | None): User ID
+        receiver_min_followers (int | None): Exclude recipients without min followers
+        receiver_is_verified (bool): Exclude non-verified recipients
+        current_user_follows (str | None): Query by who recipient follows
+        unique_by (str | None): Require involvement in the given capacity
+    """
+    sdk = Audius()
+    result = sdk.tips.get(
+        offset=offset,
+        limit=limit,
+        user_id=user_id,
+        receiver_min_followers=receiver_min_followers,
+        receiver_is_verified=receiver_is_verified,
+        current_user_follows=current_user_follows,
+        unique_by=unique_by,
     )
-    @click.option("--receiver-is-verified", help="Exclude non-verified recipients.", is_flag=True)
-    @click.option("--current-user-follows", help="Query by who recipient follows.")
-    @click.option("--unique-by", help="Require involvement in the given capacity.")
-    def get(
-        sdk,
-        offset,
-        limit,
-        user_id,
-        receiver_min_followers,
-        receiver_is_verified,
-        current_user_follows,
-        unique_by,
-    ):
-        """
-        Get tips.
-        """
+    if not result:
+        print("No tips found.")
 
-        result = sdk.tips.get(
-            offset=offset,
-            limit=limit,
-            user_id=user_id,
-            receiver_min_followers=receiver_min_followers,
-            receiver_is_verified=receiver_is_verified,
-            current_user_follows=current_user_follows,
-            unique_by=unique_by,
-        )
-        if not result:
-            click.echo("No tips found.")
-
-        else:
-            for idx, tip in enumerate(result):
-                click.echo(
-                    f"'{tip['sender']['name']}' tipped '{tip['amount']}' "
-                    f"to '{tip['receiver']['name']}' on '{tip['created_at']}'."
-                )
-
-    return cli
+    else:
+        for idx, tip in enumerate(result):
+            print(
+                f"'{tip['sender']['name']}' tipped '{tip['amount']}' "
+                f"to '{tip['receiver']['name']}' on '{tip['created_at']}'."
+            )

@@ -1,12 +1,11 @@
 from random import randint
-from typing import List
 
 import requests
 
 from audius.client import Client
 
 
-def get_hosts() -> List[str]:
+def get_hosts() -> list[str]:
     response = requests.get("https://api.audius.co")
     response.raise_for_status()
     return response.json().get("data", [])

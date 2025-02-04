@@ -13,6 +13,7 @@ extras_require = {
         "types-requests",
         "types-setuptools",
         "flake8>=7.1.1",
+        "flake8-type-checking",
         "isort>=5.13.2",
         "mdformat>=0.7.21",
         "mdformat-gfm>=0.3.5",
@@ -59,7 +60,7 @@ setup(
     include_package_data=True,
     install_requires=[
         "requests>=2.32.3,<3",
-        "click>=8.1.8,<9",
+        "cyclopts>=3.4.1,<4",
         "tqdm>=4.67.1,<5",
         "afplay-py>=0.2.0,<0.3",
     ],
