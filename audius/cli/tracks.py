@@ -1,12 +1,14 @@
 from pathlib import Path
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 
 from cyclopts import App
 
 from audius.cli.utils import print
 from audius.const import DEFAULT_BUFFER_SIZE
 from audius.sdk import Audius
-from audius.types import PlayerType
+
+if TYPE_CHECKING:
+    from audius.types import PlayerType
 
 tracks = App(name="tracks", help="View and play tracks")
 
@@ -58,7 +60,7 @@ def search(query: str = ""):
 
 
 @tracks.command(name="play")
-def play_track(track_id: Optional[str] = None, player: Optional[PlayerType] = None):
+def play_track(track_id: Optional[str] = None, player: Optional["PlayerType"] = None):
     """
     Play a track
 

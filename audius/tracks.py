@@ -2,16 +2,18 @@ import os
 from collections.abc import Iterable, Iterator
 from pathlib import Path
 from random import randint
-from typing import IO, Optional, Union
+from typing import IO, TYPE_CHECKING, Optional, Union
 
-import click
-from requests import Response
 from requests.exceptions import HTTPError
 from tqdm import tqdm  # type: ignore
 
 from audius.client import API
 from audius.exceptions import OutputPathError, TrackNotFoundError
-from audius.types import FileDestination, PlayerType
+
+if TYPE_CHECKING:
+    from requests import Response
+
+    from audius.types import FileDestination, PlayerType
 
 
 class DownloadProgressBar(tqdm):
@@ -22,8 +24,8 @@ class DownloadProgressBar(tqdm):
 
 
 def _write_response(
-    output_paths: list[FileDestination],
-    response: Response,
+    output_paths: list["FileDestination"],
+    response: "Response",
     progress_bar: Optional[DownloadProgressBar] = None,
     chunk_size: int = 1,
 ):
@@ -53,9 +55,9 @@ def _write_response(
 
 
 def _validate_output_paths(
-    output_paths: Union[FileDestination, Iterable[FileDestination]],
-) -> list[FileDestination]:
-    output_path_ls: list[FileDestination]
+    output_paths: Union["FileDestination", Iterable["FileDestination"]],
+) -> list["FileDestination"]:
+    output_path_ls: list["FileDestination"]
     if not isinstance(output_paths, (list, tuple)):
         output_path_ls = [output_paths]  # type: ignore
     else:
@@ -88,7 +90,7 @@ class Tracks(API):
         result = self.client.get("tracks/search", params={"query": query})
         return result.get("data", [])
 
-    def play(self, track_id: Optional[str], player: Optional[PlayerType] = None):
+    def play(self, track_id: Optional[str], player: Optional["PlayerType"] = None):
         if track_id is None:
             # Get a random track.
             result = self.search()
@@ -107,7 +109,7 @@ class Tracks(API):
     def download(
         self,
         track_id: str,
-        output_paths: Union[FileDestination, Iterable[FileDestination]],
+        output_paths: Union["FileDestination", Iterable["FileDestination"]],
         hide_output: bool = False,
         chunk_size: int = 1,
     ):
@@ -128,10 +130,10 @@ class Tracks(API):
             unit="B", unit_scale=True, miniters=1, desc=uri.split("/")[-1]
         )
         track = self.get(track_id)
-        click.echo(f"Downloading '{track['title']}' by {track['user']['name']}")
+        print(f"Downloading '{track['title']}' by {track['user']['name']}")
 
         dest = ", ".join([str(x) for x in output_path_ls])
-        click.echo(f"Saving at '{dest}'.")
+        print(f"Saving at '{dest}'.")
 
         with progress_bar as bar:
             _write_response(output_path_ls, response, progress_bar=bar)

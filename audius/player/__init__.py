@@ -3,11 +3,11 @@ from typing import TYPE_CHECKING, Optional
 from audius.client import API
 from audius.exceptions import MissingPlayerError
 from audius.player.af import AFPlayer
-from audius.player.base import BasePlayer
 from audius.player.vlc import VLCPlayer
 from audius.types import PlayerType
 
 if TYPE_CHECKING:
+    from audius.player.base import BasePlayer
     from audius.sdk import Audius
 
 
@@ -18,7 +18,7 @@ class Player(API):
             PlayerType.AFPLAY: AFPlayer,
             PlayerType.VLC: VLCPlayer,
         }
-        self._player_map: dict[PlayerType, BasePlayer] = {}
+        self._player_map: dict[PlayerType, "BasePlayer"] = {}
 
     def play(self, url: str, player_type: Optional[PlayerType] = None):
         player = self.get_player(player_type=player_type)
@@ -28,7 +28,7 @@ class Player(API):
         player = self.get_player(player_type=player_type)
         player.display_now_playing(track)
 
-    def get_player(self, player_type: Optional[PlayerType] = None) -> BasePlayer:
+    def get_player(self, player_type: Optional[PlayerType] = None) -> "BasePlayer":
         player_type = player_type or self.config.player
         if player_type is not None:
             if player_type not in self._player_classes:

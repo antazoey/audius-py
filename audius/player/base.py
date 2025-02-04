@@ -1,17 +1,15 @@
 from abc import abstractmethod
 from typing import TYPE_CHECKING
 
-import click
-
 from audius.client import API
-from audius.types import PlayerType
 
 if TYPE_CHECKING:
     from audius.sdk import Audius
+    from audius.types import PlayerType
 
 
 class BasePlayer(API):
-    def __init__(self, player_type: PlayerType, sdk: "Audius"):
+    def __init__(self, player_type: "PlayerType", sdk: "Audius"):
         self._type = player_type
         super().__init__(sdk)
 
@@ -29,7 +27,7 @@ class BasePlayer(API):
         """
 
     def display_now_playing(self, track: dict):
-        click.echo(
+        print(
             f"({self._type.value.lower().capitalize()}) "
             f"Now playing '{track['title']}' by {track['user']['name']}"
         )

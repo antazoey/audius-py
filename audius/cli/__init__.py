@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 
 from cyclopts import App
 
@@ -10,7 +10,10 @@ from audius.cli.tracks import tracks
 from audius.cli.users import users
 from audius.cli.utils import print
 from audius.client_factory import get_hosts
-from audius.types import PlayerType
+
+if TYPE_CHECKING:
+    from audius.types import PlayerType
+
 
 audius = App()
 audius.command(config)
@@ -31,7 +34,7 @@ def hosts():
 
 
 @audius.command
-def play(track_id: Optional[str] = None, player: Optional[PlayerType] = None):
+def play(track_id: Optional[str] = None, player: Optional["PlayerType"] = None):
     """
     Play something from Audius
     """
