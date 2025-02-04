@@ -2,6 +2,8 @@ from subprocess import PIPE, run
 
 import pytest
 
+from audius.cli import hosts
+
 
 @pytest.fixture
 def run_cmd():
@@ -38,14 +40,15 @@ def test_app_name(run_cmd):
     assert result.output == "audius-py\n"
 
 
-def test_hosts(mocker, runner, cli):
+def test_hosts(mocker, capsys):
     hosts_patch = mocker.patch("audius.cli.get_hosts")
-    hosts = ["http://host1.example.com", "https://host2.example.com"]
+    host_strings = ["http://host1.example.com", "https://host2.example.com"]
 
     def patch():
-        yield from hosts
+        yield from host_strings
 
     hosts_patch.side_effect = patch
 
-    result = runner.invoke(cli, "hosts")
-    assert result.output == "\n".join(hosts) + "\n"
+    hosts()
+    result = capsys.readouterr()
+    assert result.out == "\n".join(host_strings) + "\n"
